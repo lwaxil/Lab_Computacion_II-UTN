@@ -26,9 +26,9 @@ public class Programa_1 {
         Scanner scanner = new Scanner(System.in);
         int cont = 0;
 
-        System.out.println("Ingrese el dividendo");
+        System.out.println("Ingrese el dividendo:");
         int dividendo = scanner.nextInt();
-        System.out.println("Ingrese el divisor (debe ser mayor que 0)");
+        System.out.println("Ingrese el divisor (debe ser mayor que 0):");
         int divisor = scanner.nextInt();
         
         System.out.println("El resultado usando recursion: " + Division(dividendo, divisor));
