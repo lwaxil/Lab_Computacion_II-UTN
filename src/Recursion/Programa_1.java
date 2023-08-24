@@ -22,7 +22,7 @@ public class Programa_1 {
         return contador;
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int cont = 0;
 
