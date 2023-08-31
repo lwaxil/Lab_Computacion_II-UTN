@@ -5,8 +5,10 @@ import java.util.Scanner;
 
 class Main {
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
         GestorEmpleados gestor = new GestorEmpleados();
+
         while (true) {
             System.out.println("1. Agregar Empleado");
             System.out.println("2. Modificar Empleado");
@@ -17,7 +19,7 @@ class Main {
             int opcion = scanner.nextInt();
 
             switch (opcion) {
-                case 1:
+                case 1 -> {
                     // agregar
                     System.out.print("Ingrese el nombre del empleado: ");
                     String nombre = scanner.next();
@@ -25,15 +27,12 @@ class Main {
                     int id = scanner.nextInt();
                     System.out.print("Ingrese el sueldo base del empleado: ");
                     double sueldoBase = scanner.nextDouble();
-
                     System.out.println("Seleccione el tipo de empleado:");
                     System.out.println("1. Empleado por Horas");
                     System.out.println("2. Empleado Asalariado");
                     System.out.println("3. Empleado por Comisión");
                     int tipoEmpleado = scanner.nextInt();
-
                     Empleado nuevoEmpleado = null;
-
                     switch (tipoEmpleado) {
                         case 1:
                             System.out.print("Ingrese las horas trabajadas: ");
@@ -51,14 +50,12 @@ class Main {
                         default:
                             System.out.println("Tipo de empleado no válido.");
                     }
-
                     if (nuevoEmpleado != null) {
                         gestor.agregarEmpleado(nuevoEmpleado);
                         System.out.println("Empleado agregado con éxito.");
                     }
-
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     // modificar
                     System.out.print("Ingrese el índice del empleado a modificar: ");
                     int indiceModificar = scanner.nextInt();
@@ -72,8 +69,8 @@ class Main {
                     } else {
                         System.out.println("Índice de empleado no válido.");
                     }
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     // eliminar
                     System.out.print("Ingrese el índice del empleado a eliminar: ");
                     int indiceEliminar = scanner.nextInt();
@@ -83,8 +80,8 @@ class Main {
                     } else {
                         System.out.println("Índice de empleado no válido.");
                     }
-                    break;
-                case 4:
+                }
+                case 4 -> {
                     // mostrar
                     ArrayList<Empleado> empleados = gestor.obtenerEmpleados();
                     if (empleados.isEmpty()) {
@@ -104,12 +101,12 @@ class Main {
                             System.out.println("------------");
                         }
                     }
-                    break;
-                case 5:
+                }
+                case 5 -> {
                     System.out.println("Saliendo");
                     System.exit(0);
-                default:
-                    System.out.println("Opción no válida.");
+                }
+                default -> System.out.println("Opción no válida.");
             }
 
         }
