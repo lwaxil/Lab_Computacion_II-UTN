@@ -18,7 +18,7 @@ public class Main {
                 """);
             int opcion = scanner.nextInt();
             switch (opcion) {
-                case 1:
+                case 1 -> {
                     System.out.println("Seleccione que tipo de cuenta desea agregar: \n1. Personas\n2. Sociedades");
                     otra_opcion = scanner.nextInt();
                     if (otra_opcion == 1) {
@@ -44,8 +44,8 @@ public class Main {
                         Cuenta nuevoSocio = new CuentaSociedad(numero, saldo, nombreEmpresa, tipoEmpresa);
                         cuenta.agregarCuentaSociedad(nuevoSocio);
                     }
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.println("Seleccione el tipo de cuenta que desea eliminar: \n1. Personas\n2. Sociedades");
                     otra_opcion = scanner.nextInt();
                     if (otra_opcion == 1) {
@@ -57,8 +57,8 @@ public class Main {
                         int numero = scanner.nextInt();
                         cuenta.eliminarCuentaSociedad(numero);
                     }
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     System.out.println("Seleccione el tipo de cuenta que desea editar: \n1. Personas\n2. Sociedades");
                     otra_opcion = scanner.nextInt();
                     if (otra_opcion == 1) {
@@ -74,17 +74,14 @@ public class Main {
                         double saldo = scanner.nextDouble();
                         cuenta.editarCuentaSociedad(numero, saldo);
                     }
-                    break;
-                case 4:
-                    cuenta.mostrasTodasLasCuentas();
-                    break;
-                case 5:
+                }
+                case 4 -> cuenta.mostrasTodasLasCuentas();
+                case 5 -> {
                     System.out.println("Saliendo . . . ");
                     scanner.close();
                     return;
-                default:
-                    System.out.println("Error: ingrese una opcion valida");
-                    break;
+                }
+                default -> System.out.println("Error: ingrese una opcion valida");
             }
         }
 
