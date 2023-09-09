@@ -1,12 +1,9 @@
 package Serializacion;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 public class Serializador {
-    public void serializar(String texto) {
+    public void serializar(Block texto) {
         try {
             FileOutputStream archivoSalida = new FileOutputStream("texto.txt");
             ObjectOutputStream flujoSalida = new ObjectOutputStream(archivoSalida);
@@ -16,16 +13,21 @@ public class Serializador {
             e.printStackTrace();
         }
     }
-    public String deserializar() {
-        String bloc =" ";
+
+    public Block deserializar() {
+        Block texto = null;
         try {
-            FileInputStream archivoEntrada = new FileInputStream("texto.txt");
-            ObjectInputStream flujoEntrada = new ObjectInputStream(archivoEntrada);
-            bloc = (String) flujoEntrada.readObject();
-            flujoEntrada.close();
+            File archivo = new File("texto.txt");
+
+            if (archivo.exists() && archivo.length() > 0) {
+                FileInputStream archivoEntrada = new FileInputStream(archivo);
+                ObjectInputStream flujoEntrada = new ObjectInputStream(archivoEntrada);
+                texto = (Block) flujoEntrada.readObject();
+                flujoEntrada.close();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return bloc;
+        return texto;
     }
 }
