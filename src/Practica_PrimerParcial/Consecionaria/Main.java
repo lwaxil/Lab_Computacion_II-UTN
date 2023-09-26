@@ -109,10 +109,10 @@ class Concesionaria implements Serializable {
             System.out.println("Desea agregar vehiculos al inventario cargado desde el archivo? (s/n)");
             respuesta = scanner.next();
             if (respuesta.equals("s")) {
-                this.inventario.addAll(inventario);
+                this.inventario.addAll(inventario);//agregar los vehiculos del archivo al inventario
             } else {
                 System.out.println("Se eliminara el inventario cargado desde el archivo");
-                this.inventario.clear();
+                this.inventario.clear();//eliminar los vehiculos del archivo
             }
             System.out.println("*".repeat(50));
         } catch (IOException | ClassNotFoundException e) {
