@@ -1,10 +1,14 @@
+<<<<<<< HEAD:src/Practica_PrimerParcial/Consecionaria_funcionando/Main.java
 package Practica_PrimerParcial.Consecionaria_funcionando;
 
+=======
+package Practica_PrimerParcial.Consecionaria;
+>>>>>>> 7f830a050ef406aac8d776212eb7f71db82bc184:src/Practica_PrimerParcial/Consecionaria/Main.java
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
+// Clase Vehiculo
 abstract class Vehiculo implements Serializable {
     private String marca;
     private String modelo;
@@ -15,30 +19,8 @@ abstract class Vehiculo implements Serializable {
         this.modelo = modelo;
         this.precio = precio;
     }
-    public static Vehiculo crearCoche() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Ingrese la marca del vehículo: ");
-        String marca = scanner.nextLine();
-        System.out.println("Ingrese el modelo del vehículo: ");
-        String modelo = scanner.nextLine();
-        System.out.println("Ingrese el precio del vehículo: ");
-        double precio = scanner.nextDouble();
-        return new Coche(marca, modelo, precio); // Puedes cambiar a Coche o Moto según lo que elija el usuario
-    }
-    public static Vehiculo crearMoto() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Ingrese la marca del vehículo: ");
-        String marca = scanner.nextLine();
-        System.out.println("Ingrese el modelo del vehículo: ");
-        String modelo = scanner.nextLine();
-        System.out.println("Ingrese el precio del vehículo: ");
-        double precio = scanner.nextDouble();
-        return new Moto(marca, modelo, precio); // Puedes cambiar a Coche o Moto según lo que elija el usuario
-    }
-    public abstract double calcularImpuesto();
 
-    public abstract void mostrarInformacion();
-
+    // Getters y setters
     public String getMarca() {
         return marca;
     }
@@ -51,209 +33,168 @@ abstract class Vehiculo implements Serializable {
         return precio;
     }
 
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
     @Override
     public String toString() {
         return "Marca: " + marca + ", Modelo: " + modelo + ", Precio: $" + precio;
     }
-
-    public void setPrecio(double precio) {
-
-    }
+    abstract double calcularImpuesto();
+    abstract void mostrarInformacion();
 }
+class Coche extends Vehiculo implements Serializable{
 
-class Coche extends Vehiculo implements Serializable {
     public Coche(String marca, String modelo, double precio) {
         super(marca, modelo, precio);
     }
 
     @Override
     public double calcularImpuesto() {
-        return getPrecio() * 0.15;
+        // Lógica para calcular impuesto de coche (puede ser personalizada)
+        return getPrecio() * 0.10;
     }
 
     @Override
     public void mostrarInformacion() {
-        System.out.println("Coche - " + toString());
+        System.out.println("Tipo: Coche");
+        System.out.println(this);
     }
 }
-
-class Moto extends Vehiculo implements Serializable {
-    public Moto(String marca, String modelo, double precio) {
-        super(marca, modelo, precio);
-    }
-
-    @Override
-    public double calcularImpuesto() {
-        return getPrecio() * 0.1;
-    }
-
-    @Override
-    public void mostrarInformacion() {
-        System.out.println("Moto - " + toString());
-    }
-}
-
+// Clase Concesionaria
 class Concesionaria implements Serializable {
-    private Vehiculo vehiculo;
-
-    public Concesionaria(Vehiculo vehiculo) {
-        this.vehiculo = vehiculo;
+    private ArrayList<Vehiculo> inventario = new ArrayList<>();
+    Scanner scanner = new Scanner(System.in);
+    public void agregarVehiculo(Vehiculo vehiculo) {
+        inventario.add(vehiculo);
     }
 
-    public Vehiculo getVehiculo() {
-        return vehiculo;
+    public void eliminarVehiculo(String marca, String modelo) {
+        inventario.removeIf(v -> v.getMarca().equals(marca) && v.getModelo().equals(modelo));
     }
 
-    public Vehiculo[] getVehiculos() {
-        return new Vehiculo[0];
-    }
-}
-
-class Serializador {
-    public void guardar(Concesionaria concesionaria, String archivo) throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo))) {
-            oos.writeObject(concesionaria);
-            System.out.println("Concesionaria guardada en " + archivo);
+    public void editarPrecio(String marca, String modelo, double nuevoPrecio) {
+        for (Vehiculo vehiculo : inventario) {
+            if (vehiculo.getMarca().equals(marca) && vehiculo.getModelo().equals(modelo)) {
+                vehiculo.setPrecio(nuevoPrecio);
+            }
         }
     }
 
-    public Concesionaria cargar(String archivo) throws IOException, ClassNotFoundException {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo))) {
-            Concesionaria concesionariaCargada = (Concesionaria) ois.readObject();
-            System.out.println("Concesionaria cargada desde " + archivo);
-            return concesionariaCargada;
+    public void mostrarInventario() {
+        System.out.println("Inventario de la Concesionaria:");
+        for (Vehiculo vehiculo : inventario) {
+            System.out.println(vehiculo);
+        }
+    }
+
+    public void Serializar(String archivo) {
+        try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(archivo))) {
+            salida.writeObject(inventario);
+            System.out.println("Inventario guardado correctamente en " + archivo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void Deserializar(String archivo) {
+        try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(archivo))) {
+            ArrayList<Vehiculo> inventario = (ArrayList<Vehiculo>) entrada.readObject();
+            System.out.println("Desea ver el inventario cargado desde el archivo? (s/n)");
+            String respuesta = scanner.next();
+            if (respuesta.equals("s")) {
+                System.out.println("Inventario cargado desde " + archivo + ":");
+                for (Vehiculo vehiculo : inventario) {
+                    System.out.println(vehiculo);
+                }
+                System.out.println("*".repeat(50));
+            }
+            //preguntar si desea seguir agregando vehiculos al inventario o empezar de cero
+            System.out.println("Desea agregar vehiculos al inventario cargado desde el archivo? (s/n)");
+            respuesta = scanner.next();
+            if (respuesta.equals("s")) {
+                this.inventario.addAll(inventario);//agregar los vehiculos del archivo al inventario
+            } else {
+                System.out.println("Se eliminara el inventario cargado desde el archivo");
+                this.inventario.clear();//eliminar los vehiculos del archivo
+            }
+            System.out.println("*".repeat(50));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
 
 public class Main {
     public static void main(String[] args) {
+        Concesionaria concesionaria = new Concesionaria();
         Scanner scanner = new Scanner(System.in);
-        Serializador serializador = new Serializador();
-        Concesionaria concesionariaCargada = null;
-        Concesionaria concesionaria = null;
-
-        List<Vehiculo> vehiculos = new ArrayList<>();
-
-        int opcion;
-        System.out.println("Seleccione: \n1. Cargar un fichero existente\n2. Guardar un nuevo fichero");
-        int opcion1 = scanner.nextInt();
-
-        if (opcion1 == 1) {
-            File archivo = new File("concesionaria.dat");
-
-            if (archivo.exists() && archivo.length() > 0) {
-                System.out.println("Concesionaria cargada con éxito.");
-                try {
-                    vehiculos = (List<Vehiculo>) serializador.cargar("concesionaria.dat");
-                } catch (Exception e) {
-                    System.out.println("Error al cargar la concesionaria desde el archivo.");
-                }
-            } else {
-                System.out.println("El archivo no existe. Creando uno...");
-            }
-        }
-
-        if (concesionariaCargada == null) {
-            do {
-                System.out.println("Seleccione qué operación desea realizar en la concesionaria");
-                System.out.println("""
-                    1. Agregar vehiculo
-                    2. Editar vehiculo
-                    3. Eliminar vehiculo
-                    4. Mostrar vehiculos
-                    5. Salir""");
-                opcion = scanner.nextInt();
-                switch (opcion) {
-                    case 1 -> {
-                        System.out.println("¿Qué desea agregar? \n1. Coches \n2. Motos");
-                        int otra_opción = scanner.nextInt();
-                        switch (otra_opción) {
-                            case 1 -> {
-                                Vehiculo coche = Vehiculo.crearCoche();
-                                vehiculos.add(coche); // Agregar el vehículo a la lista
-                            }
-                            case 2 -> {
-                                Vehiculo moto = Vehiculo.crearMoto();
-                                vehiculos.add(moto); // Agregar el vehículo a la lista
-                            }
-                        }
-                    }
-                    case 2 -> {
-                        System.out.println("Ingrese el vehiculo que desea editar: \n1. Coches\n2. Motos");
-                        int otra_opcion = scanner.nextInt();
-                        switch (otra_opcion) {
-                            case 1 -> {
-                                System.out.println("Ingrese la marca: ");
-                                String marca = scanner.next();
-                                System.out.println("Ingrese el modelo: ");
-                                String modelo = scanner.next();
-                                System.out.println("Ingrese el precio");
-                                double precio = scanner.nextDouble();
-                                // Lógica para editar un coche
-                                for (Vehiculo vehiculo : vehiculos) {
-                                    if (vehiculo instanceof Coche && vehiculo.getMarca().equals(marca) &&
-                                            vehiculo.getModelo().equals(modelo)) {
-                                        // Actualizar el precio del coche
-                                        ((Coche) vehiculo).setPrecio(precio);
-                                        System.out.println("Coche editado con éxito.");
-                                    }
-                                }
-                            }
-                            case 2 -> {
-                                System.out.println("Ingrese la marca: ");
-                                String marca = scanner.next();
-                                System.out.println("Ingrese el modelo: ");
-                                String modelo = scanner.next();
-                                System.out.println("Ingrese el nuevo precio: ");
-                                double precio = scanner.nextDouble();
-                                // Lógica para editar una moto
-                                for (Vehiculo vehiculo : vehiculos) {
-                                    if (vehiculo instanceof Moto && vehiculo.getMarca().equals(marca) &&
-                                            vehiculo.getModelo().equals(modelo)) {
-                                        // Actualizar el precio de la moto
-                                        ((Moto) vehiculo).setPrecio(precio);
-                                        System.out.println("Moto editada con éxito.");
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    case 3 -> {
-                        System.out.println("Ingrese la marca: ");
-                        String marca = scanner.next();
-                        System.out.println("Ingrese el modelo: ");
-                        String modelo = scanner.next();
-                        // Lógica para eliminar un vehículo
-                        vehiculos.removeIf(vehiculo ->
-                                vehiculo.getMarca().equals(marca) && vehiculo.getModelo().equals(modelo));
-                        System.out.println("Vehículo eliminado con éxito.");
-                    }
-                    case 4 -> {
-                        System.out.println("Vehículos en la concesionaria:");
-                        for (Vehiculo vehiculo : vehiculos) {
-                            vehiculo.mostrarInformacion();
-                        }
-                    }
-                    case 5 -> {
-                        System.out.println("Saliendo del programa");
-                    }
-                }
-            } while (opcion != 5);
-
-            // Crear una concesionaria con la lista de vehículos
-            concesionariaCargada = new Concesionaria((Vehiculo) vehiculos);
+        //crear el archivo en caso de que no exista
+        File archivo = new File("inventario.dat");
+        if (!archivo.exists()) {
             try {
-                serializador.guardar((Concesionaria) vehiculos, "concesionaria.dat");
+                archivo.createNewFile();
             } catch (IOException e) {
-                System.out.println("Error al guardar la concesionaria.");
-            }
-        } else {
-            // Si se cargó desde el archivo, mostrar la información de los vehículos
-            System.out.println("Vehículos en la concesionaria:");
-            for (Vehiculo vehiculo : concesionariaCargada.getVehiculos()) {
-                vehiculo.mostrarInformacion();
+                e.printStackTrace();
             }
         }
+        //deserializar el archivo
+        concesionaria.Deserializar("inventario.dat");
+        //menu de opciones
+        System.out.println("Bienvenido a la concesionaria");
+        int opcion = 0;
+        do {
+            System.out.println("Elija una opcion");
+            System.out.println("1- Agregar vehiculo");
+            System.out.println("2- Eliminar vehiculo");
+            System.out.println("3- Editar precio");
+            System.out.println("4- Mostrar inventario");
+            System.out.println("5- Salir");
+            opcion = scanner.nextInt();
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ingrese los datos del coche");
+                    System.out.print("Marca: ");
+                    String marca = scanner.next();
+                    System.out.print("Modelo: ");
+                    String modelo = scanner.next();
+                    System.out.print("Precio: ");
+                    double precio = scanner.nextDouble();
+                    Vehiculo coche = new Coche(marca, modelo, precio);
+                    concesionaria.agregarVehiculo(coche);
+                    break;
+                case 2:
+                    System.out.println("Ingrese la marca y modelo del vehiculo a eliminar");
+                    System.out.print("Marca: ");
+                    String marcaEliminar = scanner.next();
+                    System.out.print("Modelo: ");
+                    String modeloEliminar = scanner.next();
+                    concesionaria.eliminarVehiculo(marcaEliminar, modeloEliminar);
+                    break;
+                case 3:
+                    System.out.println("Ingrese la marca y modelo del vehiculo a editar");
+                    System.out.print("Marca: ");
+                    String marcaEditar = scanner.next();
+                    System.out.print("Modelo: ");
+                    String modeloEditar = scanner.next();
+                    System.out.print("Ingrese el nuevo precio: ");
+                    double nuevoPrecio = scanner.nextDouble();
+                    concesionaria.editarPrecio(marcaEditar, modeloEditar, nuevoPrecio);
+                    break;
+                case 4:
+                    concesionaria.mostrarInventario();
+                    break;
+                case 5:
+                    break;
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+            }
+        } while (opcion != 5);
+        //al finalizar el programa, serializar el inventario
+        concesionaria.Serializar("inventario.dat");
+        //cerrar el scanner
+        scanner.close();
     }
 }
