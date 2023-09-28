@@ -1,6 +1,6 @@
 package Practica_PrimerParcial.Consecionaria_Vehiculos;
 
-public abstract class Vehiculo {
+public class Vehiculo {
     protected String marca;
     protected String modelo;
     protected double precio;
@@ -14,8 +14,13 @@ public abstract class Vehiculo {
         this.precio = precio;
     }
 
-    public abstract double calcularImpuesto();
-    public abstract void mostrarInformacion();
+    public double calcularImpuesto() {
+        return 0;
+    }
+
+    public void mostrarInformacion() {
+
+    }
 
     public String getMarca() {
         return marca;
