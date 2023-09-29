@@ -15,6 +15,7 @@ abstract class Persona{
 }
 public class Serializacion {
     ArrayList <Persona> personas = new ArrayList<>();
+
     protected void Serializar (String nombreArchivo){
         try {
             FileOutputStream file = new FileOutputStream(nombreArchivo);
