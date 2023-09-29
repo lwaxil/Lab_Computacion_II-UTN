@@ -1,4 +1,4 @@
-package Sistema_Gestion_Empleados;
+package Practica_PrimerParcial.Sistema_Gestion_Empleados;
 
 public class EmpleadoPorHoras extends Empleado implements Impuesto{
     private int horasTrabajadas;

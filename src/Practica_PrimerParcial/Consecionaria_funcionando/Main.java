@@ -1,9 +1,7 @@
-<<<<<<< HEAD:src/Practica_PrimerParcial/Consecionaria_funcionando/Main.java
+
 package Practica_PrimerParcial.Consecionaria_funcionando;
 
-=======
-package Practica_PrimerParcial.Consecionaria;
->>>>>>> 7f830a050ef406aac8d776212eb7f71db82bc184:src/Practica_PrimerParcial/Consecionaria/Main.java
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -63,7 +61,7 @@ class Coche extends Vehiculo implements Serializable{
     }
 }
 // Clase Concesionaria
-class Concesionaria implements Serializable {
+class   Concesionaria implements Serializable {
     private ArrayList<Vehiculo> inventario = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
     public void agregarVehiculo(Vehiculo vehiculo) {
