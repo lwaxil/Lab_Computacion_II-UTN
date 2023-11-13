@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Estudiantes {
     public static void main(String[] args) {
         // Datos de conexión a la base de datos (ajusta estos valores según tu configuración)
-        String url = "jdbc:mariadb://localhost:3306/universidad";//Aqui reemplazar mysql por mariadb
+        String url = "jdbc:mysql://localhost:3306/estudiantes";//Aqui reemplazar mysql por mariadb
         String usuario = "root";/*en localhost >> colocar el puerto que les aparezca en xampp*/
         String pass = "";
         Scanner scanner = new Scanner(System.in);
@@ -68,7 +68,7 @@ public class Estudiantes {
         ResultSet resultado = statement.executeQuery(consulta);
 
         // Imprime una cabecera de columnas para los datos de los estudiantes.
-        System.out.println("ID\tNombre\tApellido\tLegajo\tDNI\tFecha de nacimiento\tDirección\tTeléfono\tEmail");
+        System.out.println("ID\tNombre\tApellido\tLegajo\tDNI");
 
         // Itera a través de los resultados y muestra los datos de cada estudiante en forma de tabla.
         while (resultado.next()) {
@@ -77,14 +77,10 @@ public class Estudiantes {
             String apellido = resultado.getString("apellido");
             String legajo = resultado.getString("legajo");
             String dni = resultado.getString("dni");
-            String fechaNacimiento = resultado.getString("fecha_nacimiento");
-            String direccion = resultado.getString("direccion");
-            String telefono = resultado.getString("telefono");
-            String email = resultado.getString("email");
+
 
             // Imprime los datos del estudiante con tabulaciones para formatear como una tabla.
-            System.out.println(id + "\t" + nombre + "\t" + apellido + "\t" + legajo + "\t" + dni + "\t" +
-                    fechaNacimiento + "\t" + direccion + "\t" + telefono + "\t" + email);
+            System.out.println(id + "\t" + nombre + "\t" + apellido + "\t" + legajo + "\t" + dni + "\t");
         }
 
         // Cierra el ResultSet y la declaración para liberar recursos.
@@ -105,19 +101,11 @@ public class Estudiantes {
         String legajo = scanner.nextLine();
         System.out.print("DNI: ");
         String dni = scanner.nextLine();
-        System.out.print("Fecha de nacimiento (YYYY-MM-DD): ");
-        String fechaNacimiento = scanner.nextLine();
-        System.out.print("Dirección: ");
-        String direccion = scanner.nextLine();
-        System.out.print("Teléfono: ");
-        String telefono = scanner.nextLine();
-        System.out.print("Email: ");
-        String email = scanner.nextLine();
 
         // Consulta SQL para insertar un nuevo estudiante en la base de datos.
         // Utiliza signos de interrogación como marcadores de posición para los valores.
-        String consulta = "INSERT INTO estudiantes (nombre, apellido, legajo, dni, fecha_nacimiento, direccion, telefono, email) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String consulta = "INSERT INTO estudiantes (nombre, apellido, legajo, dni ) " +
+                "VALUES (?, ?, ?, ?)";
 
         // Crea un PreparedStatement para ejecutar la consulta SQL con valores reales.
         PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -125,10 +113,6 @@ public class Estudiantes {
         preparedStatement.setString(2, apellido); // Asigna el valor de apellido al segundo marcador de posición
         preparedStatement.setString(3, legajo); // Asigna el valor de legajo al tercer marcador de posición
         preparedStatement.setString(4, dni); // Asigna el valor de dni al cuarto marcador de posición
-        preparedStatement.setString(5, fechaNacimiento); // Asigna el valor de fecha de nacimiento al quinto marcador de posición
-        preparedStatement.setString(6, direccion); // Asigna el valor de dirección al sexto marcador de posición
-        preparedStatement.setString(7, telefono); // Asigna el valor de teléfono al séptimo marcador de posición
-        preparedStatement.setString(8, email); // Asigna el valor de email al octavo marcador de posición
 
         // Ejecuta la consulta y obtiene el número de filas afectadas.
         int filasAfectadas = preparedStatement.executeUpdate();
