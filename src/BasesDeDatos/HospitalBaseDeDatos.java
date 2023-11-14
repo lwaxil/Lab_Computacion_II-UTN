@@ -1,6 +1,7 @@
 package BasesDeDatos;
 
 import java.sql.*;
+import java.util.Scanner;
 
 // 1. Define la clase abstracta Persona con atributos comunes para pacientes y doctores.
 abstract class Persona {
@@ -167,11 +168,27 @@ class HospitalBasesDeDatos {
         Hospital hospital = new Hospital();
         //agregar un paciente de ejemplo
         Date fechaActual = new Date(2023 - 1900, 1 - 1, 10);
-        Paciente paciente = new Paciente("Juan Bonete", 45, "Ninguno", 1, fechaActual);
+        //Paciente paciente = new Paciente("Juan Bonete", 45, "Ninguno", 1, fechaActual);
+        //hospital.agregarPaciente(paciente);
+
+        //agregar un paciente por teclado
+        /*Scanner sc = new Scanner(System.in);
+        System.out.println("Introduce el nombre del paciente: ");
+        String nombre = sc.nextLine();
+        System.out.println("Introduce la edad del paciente: ");
+        int edad = sc.nextInt();
+        System.out.println("Introduce el historial médico del paciente: ");
+        String historialMedico = sc.next();
+        System.out.println("Introduce el doctor de cabecera del paciente: ");
+        int doctorCabecera = sc.nextInt();
+        System.out.println("Introduce la fecha de ingreso del paciente: ");
+        Date fechaIngreso = new Date(sc.nextInt() - 1900, sc.nextInt() - 1, sc.nextInt());
+        Paciente paciente = new Paciente(nombre, edad, historialMedico, doctorCabecera, fechaIngreso);
         hospital.agregarPaciente(paciente);
+        sc.close();*/
 
         //eliminar un paciente de ejemplo
-        //hospital.eliminarPaciente("Paciente1");
+        hospital.eliminarPaciente("Thiago");
 
         //asignar un doctor de cabecera a un paciente de ejemplo
         //hospital.asignarDoctorCabecera("Dario", "Pepito");
