@@ -74,6 +74,50 @@ class Hospital {
         String consulta = "DELETE FROM pacientes WHERE nombre = '" + nombre + "'";
         DBHelper.ejecutarConsulta(consulta);
     }
+    //editar un paciente apartir de su nombre, preguntando que campo desea editar
+    public void editarPaciente(String nombre) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("¿Qué campo desea editar?");
+        System.out.println("1. Nombre");
+        System.out.println("2. Edad");
+        System.out.println("3. Historial Médico");
+        System.out.println("4. Doctor de Cabecera");
+        System.out.println("5. Salir");
+        int opcion = sc.nextInt();
+        sc.nextLine();
+        switch (opcion) {
+            case 1:
+                System.out.println("Introduce el nuevo nombre: ");
+                String nuevoNombre = sc.next();
+                String consulta = "UPDATE pacientes SET nombre = '"+nuevoNombre+"' WHERE nombre = '"+nombre+"'";
+                DBHelper.ejecutarConsulta(consulta);
+                break;
+            case 2:
+                System.out.println("Introduce la nueva edad: ");
+                int nuevaEdad = sc.nextInt();
+                consulta = "UPDATE pacientes SET edad = '"+nuevaEdad+"' WHERE nombre = '"+nombre+"'";
+                DBHelper.ejecutarConsulta(consulta);
+                break;
+            case 3:
+                System.out.println("Introduce el nuevo historial médico: ");
+                String nuevoHistorialMedico = sc.nextLine();
+                consulta = "UPDATE pacientes SET historial_medico = '"+nuevoHistorialMedico+"' WHERE nombre = '"+nombre+"'";
+                DBHelper.ejecutarConsulta(consulta);
+                break;
+            case 4:
+                System.out.println("Introduce el nuevo doctor de cabecera: ");
+                int nuevoDoctorCabecera = sc.nextInt();
+                consulta = "UPDATE pacientes SET doctor = '"+nuevoDoctorCabecera+"' WHERE nombre = '"+nombre+"'";
+                DBHelper.ejecutarConsulta(consulta);
+                break;
+            case 5:
+                return;
+            default:
+                System.out.println("Opción incorrecta");
+                break;
+        }
+        sc.close();
+    }
 
     //método para asignar un doctor de cabecera a un paciente indicando el nombre del doctor y el nombre del paciente
     public void asignarDoctorCabecera(String nombreDoctor, String nombrePaciente) {
@@ -116,8 +160,6 @@ class Hospital {
     }
 }
 
-
-
 class DBHelper {
     private static final String URL = "jdbc:mysql://localhost:3306/hospital_db";
     private static final String USER = "root";
@@ -158,47 +200,81 @@ class DBHelper {
             return null;
         }
     }
-
 }
 
 class HospitalBasesDeDatos {
     //main del programa
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         //creamos un objeto de la clase Hospital
         Hospital hospital = new Hospital();
-        //agregar un paciente de ejemplo
-        Date fechaActual = new Date(2023 - 1900, 1 - 1, 10);
-        //Paciente paciente = new Paciente("Juan Bonete", 45, "Ninguno", 1, fechaActual);
-        //hospital.agregarPaciente(paciente);
 
-        //agregar un paciente por teclado
-        /*Scanner sc = new Scanner(System.in);
-        System.out.println("Introduce el nombre del paciente: ");
-        String nombre = sc.nextLine();
-        System.out.println("Introduce la edad del paciente: ");
-        int edad = sc.nextInt();
-        System.out.println("Introduce el historial médico del paciente: ");
-        String historialMedico = sc.next();
-        System.out.println("Introduce el doctor de cabecera del paciente: ");
-        int doctorCabecera = sc.nextInt();
-        System.out.println("Introduce la fecha de ingreso del paciente: ");
-        Date fechaIngreso = new Date(sc.nextInt() - 1900, sc.nextInt() - 1, sc.nextInt());
-        Paciente paciente = new Paciente(nombre, edad, historialMedico, doctorCabecera, fechaIngreso);
-        hospital.agregarPaciente(paciente);
-        sc.close();*/
+        //menu de opciones
+        int opcion = 0;
+        do{
+            System.out.println("Ingrese la opcion correspondiente a la gestion de pacientes que desea realizar: ");
+            System.out.println("1. Agregar un paciente");
+            System.out.println("2. Eliminar un paciente");
+            System.out.println("3. Editar un paciente");
+            System.out.println("4. Asignar un doctor de cabecera a un paciente");
+            System.out.println("5. Listar todos los pacientes");
+            System.out.println("6. Listar pacientes entre dos fechas");
+            System.out.println("7. Salir\n");
+            opcion = sc.nextInt();
+            sc.nextLine();
+            switch (opcion) {
+                case 1:
+                    System.out.println("Introduce el nombre del paciente: ");
+                    String nombre = sc.nextLine();
+                    System.out.println("Introduce la edad del paciente: ");
+                    int edad = sc.nextInt();
+                    sc.nextLine();
+                    System.out.println("Introduce el historial médico del paciente: ");
+                    String historialMedico = sc.nextLine();
+                    System.out.println("Introduce el doctor de cabecera del paciente: ");
+                    int doctorCabecera = sc.nextInt();
+                    System.out.println("Introduce la fecha de ingreso del paciente: ");
+                    Date fechaIngreso = new Date(sc.nextInt() - 1900, sc.nextInt() - 1, sc.nextInt());
+                    Paciente paciente = new Paciente(nombre, edad, historialMedico, doctorCabecera, fechaIngreso);
+                    hospital.agregarPaciente(paciente);
+                    break;
+                case 2:
+                    hospital.listarPacientes();
+                    System.out.println("Introduce el nombre del paciente que desea eliminar: ");
+                    String nombrePaciente = sc.nextLine();
+                    hospital.eliminarPaciente(nombrePaciente);
+                    break;
+                case 3:
+                    hospital.listarPacientes();
+                    System.out.println("Introduce el nombre del paciente que desea editar: ");
+                    String nombrePacienteEditar = sc.nextLine();
+                    hospital.editarPaciente(nombrePacienteEditar);
+                    break;
+                case 4:
+                    System.out.println("Introduce el nombre del doctor de cabecera: ");
+                    String nombreDoctor = sc.nextLine();
+                    System.out.println("Introduce el nombre del paciente: ");
+                    String nombrePacienteAsignar = sc.nextLine();
+                    hospital.asignarDoctorCabecera(nombreDoctor, nombrePacienteAsignar);
+                    break;
+                case 5:
+                    hospital.listarPacientes();
+                    break;
+                case 6:
+                    System.out.println("Introduce la fecha desde la que desea listar los pacientes: ");
+                    Date fechaDesde = new Date(sc.nextInt() - 1900, sc.nextInt() - 1, sc.nextInt());
+                    System.out.println("Introduce la fecha hasta la que desea listar los pacientes: ");
+                    Date fechaHasta = new Date(sc.nextInt() - 1900, sc.nextInt() - 1, sc.nextInt());
+                    hospital.listarPacientesEntreDosFechas(fechaDesde, fechaHasta);
+                    break;
+                case 7:
+                    return;
+                default:
+                    System.out.println("Opción incorrecta");
+                    break;
+            }
+        }while(opcion != 7);
 
-        //eliminar un paciente de ejemplo
-        hospital.eliminarPaciente("Thiago");
-
-        //asignar un doctor de cabecera a un paciente de ejemplo
-        //hospital.asignarDoctorCabecera("Dario", "Pepito");
-
-        //listar todos los pacientes
-        hospital.listarPacientes();
-
-        //listar pacientes entre dos fechas
-        /*Date fechaDesde = new Date(2023 - 1900, 1 - 1, 1);
-        Date fechaHasta = new Date(2023 - 1900, 1 - 1, 10);
-        hospital.listarPacientesEntreDosFechas(fechaDesde, fechaHasta);*/
+        sc.close();
     }
 }
