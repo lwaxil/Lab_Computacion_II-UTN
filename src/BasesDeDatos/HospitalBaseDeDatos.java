@@ -161,7 +161,7 @@ class Hospital {
 }
 
 class DBHelper {
-    private static final String URL = "jdbc:mysql://localhost:3306/hospital_db";
+    private static final String URL = "jdbc:mysql://localhost:33061/hospital_db";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
@@ -219,7 +219,7 @@ class HospitalBasesDeDatos {
             System.out.println("4. Asignar un doctor de cabecera a un paciente");
             System.out.println("5. Listar todos los pacientes");
             System.out.println("6. Listar pacientes entre dos fechas");
-            System.out.println("7. Salir\n");
+            System.out.println("7. Salir");
             opcion = sc.nextInt();
             sc.nextLine();
             switch (opcion) {
@@ -274,7 +274,6 @@ class HospitalBasesDeDatos {
                     break;
             }
         }while(opcion != 7);
-
         sc.close();
     }
 }
