@@ -310,6 +310,7 @@ class Administracion implements Serializable{
         }
     }
 }
+//hola
 interface Informacion {
    public void verHistorialDeEventos();
 
