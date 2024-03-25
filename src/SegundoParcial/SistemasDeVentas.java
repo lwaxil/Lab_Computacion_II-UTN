@@ -4,8 +4,9 @@ import java.sql.*;
 import java.util.ArrayList;
 
 //1. crear la clase DBHelper
+
 class DBHelper {
-    private static final String URL = "jdbc:mysql://localhost:33061/ventas";
+    private static final String URL = "jdbc:mysql://localhost:3306/ventas";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
