@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 /*Desarrolla un programa que realice la división de dos números enteros utilizando tanto el enfoque recursivo como el iterativo con restas sucesivas.
 Implementa ambos enfoques en la misma clase, utilizando la sobrecarga de métodos para diferenciarlos. Luego, realiza pruebas utilizando distintos pares de números.*/
+//hola jejeje
 public class Programa_1 {
     // Enfoque recursivo
     public static int Division(int dividendo, int divisor) {
